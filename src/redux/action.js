@@ -19,8 +19,9 @@ export const fetchPostUser = (payload) => (dispatch) => {
 };
 
 export function getPercentage(solve, total) {
-  let per = Math.floor(solve / total);
-  return per * 100;
+  console.log(solve/total*100)
+  let per = Math.floor((solve/total*100));
+  return per ;
 }
 
 
@@ -31,3 +32,19 @@ export const fetchusers =()=>(dispatch)=>{
     dispatch(actionGetUser(res.data));
   })
 }
+
+
+export function makeFirstLetterCap(str){
+
+  let result = str.split("").reduce((acc,item,index)=>{
+      if(index==0){
+        acc+= item.toUpperCase();
+      }else{
+        acc+=item;
+      }
+      return acc;
+  },"")
+  return result;
+}
+
+

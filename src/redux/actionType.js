@@ -4,6 +4,8 @@ export const SAVE_FORM = "SAVE_FORM"
 
 export const SAVE_QUESTION = "SAVE_QUESTION"
 
+export const RESET_QUESTION = "RESET_QUESTION"
+
 
 export const CORRECT_ANSWERS = "CORRECT_ANSWERS"
 
@@ -20,9 +22,13 @@ export function actionSaveQuestion(payload){
     return {type:SAVE_QUESTION,payload}
 }
 
+export function actionResetQuestion(payload){
+    return {type:RESET_QUESTION,payload}
+}
 
-export function actionCorrectAnswer(){
-    return {type:CORRECT_ANSWERS}
+
+export function actionCorrectAnswer(payload){
+    return {type:CORRECT_ANSWERS,payload}
 }
 
 export function actionGetUser(payload){

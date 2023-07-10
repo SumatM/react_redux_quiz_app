@@ -22,12 +22,14 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchusers } from "../redux/action";
 import { Link } from "react-router-dom";
+import { actionResetQuestion } from "../redux/actionType";
 
 export const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchusers());
+    dispatch(actionResetQuestion({}))
   }, []);
 
   const quizeStore = useSelector((s) => s.quizeReducer);
@@ -35,9 +37,9 @@ export const Dashboard = () => {
   //console.log(quizeStore);
 
   return (
-    <Box pt="5vh" bg="#EDE7F6" >
-      <Box>
-        <Heading>Dashboard</Heading>
+    <Box className="bg" h="100vh">
+      <Box backdropFilter="blur(5px)" borderRadius="md" p="15px">
+        <Heading color="#9575CD">Dashboard</Heading>
       </Box>
       <Box
         w="50%"
@@ -45,18 +47,23 @@ export const Dashboard = () => {
         p="20px"
         border="1px solid"
         mt="10vh"
-        bg="#FBE9E7"
+        backdropFilter="blur(10px)"
       >
-        <TableContainer>
+        <Heading size="sm" p="10px" border="1px solid">
+          Score Board
+        </Heading>
+        <TableContainer mt='10px'>
           <Table variant="striped" colorScheme="teal">
             <TableCaption>
-              <Heading size="sm" p="10px" border="1px solid">
-                Score Board
-              </Heading>
-              <Link to='/'><Button border='1px solid' borderRadius='none' mt='10px'>Home</Button></Link>
+              <Link to="/">
+                <Button border="1px solid" borderRadius="none" mt="10px">
+                  Home
+                </Button>
+              </Link>
             </TableCaption>
             <Thead>
               <Tr>
+              <Th>Sr. no.</Th>
                 <Th>Name</Th>
                 <Th>Score</Th>
               </Tr>
@@ -64,7 +71,8 @@ export const Dashboard = () => {
             <Tbody>
               {quizeStore.users?.map((item) => {
                 return (
-                  <Tr>
+                  <Tr key={item.id}>
+                  <Td>{item.id}</Td>
                     <Td>{item.user}</Td>
                     <Td>{item.score}</Td>
                   </Tr>

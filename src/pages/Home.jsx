@@ -1,31 +1,69 @@
-import { Box, Button, Heading, Input, Select } from "@chakra-ui/react";
+import { Box, Button, Heading, Input, Select, Text,Toast, useToast } from "@chakra-ui/react";
 import { useState } from "react";
-import {useNavigate} from 'react-router-dom'
-import {useDispatch} from 'react-redux'
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { fetchQuestion } from "../redux/action";
-
+import { ShowToast } from "../component/ShowToast";
 
 export const Home = () => {
+  const [form, setForm] = useState({
+    name: "",
+    category: "",
+    difficulty: "",
+    amount: 0,
+  });
+  const naviage = useNavigate();
+  const dispatch = useDispatch();
+  const toast = useToast();
 
-   const [form,setForm] = useState({name:"",category:"",difficulty:"",amount:10})
-   const naviage = useNavigate()
-   const dispatch = useDispatch();
+  function handleInput(e) {
+    const { name, value } = e.target;
+    setForm({ ...form, [name]: value });
+  }
 
-   function handleInput(e){
-    const {name,value} = e.target
-    setForm({...form,[name]:value})
-   }
-   
-   function handleStart(e){
+  function handleStart(e) {
     e.preventDefault();
-    dispatch(fetchQuestion(form))
-    naviage('/quiz')
-   }
+    const {name,category,difficulty,amount} = form;
+
+    console.log(form);
+
+    if(!name && !category && !difficulty && !amount){
+      ShowToast(toast,"red.500",'Please Fill All Deails')
+      
+     return;
+    }
+    if(!name){
+      ShowToast(toast,"red.500",'Please Enter the Name');
+      return;
+    }
+    if(!category){
+      ShowToast(toast,"red.500",'Please Enter the Category');
+      return;
+    }
+    if(!difficulty){
+      ShowToast(toast,"red.500",'Please Enter the Difficulty Level');
+      return;
+    }
+    if(!amount){
+      ShowToast(toast,"red.500",'Please Enter the Question Number');
+      return;
+    }
+    
+    dispatch(fetchQuestion(form));
+    naviage("/quiz");
+  }
+
 
   return (
-    <Box pt='5vh' bg='#EDE7F6' h='100vh'>
-      <Heading>Set up your Quiz</Heading>
-      <Box w="60%" m="auto" mt="40px" bg='#FBE9E7' p='25px' border='1px solid'>
+    <Box className="bg" h="100vh">
+      <Box
+        backdropFilter="blur(5px)"
+        borderRadius="md"
+        p="15px"        
+      >
+        <Heading color="#9575CD">Set up your Quiz</Heading>
+      </Box>
+      <Box w="60%" m="auto" mt="40px" bg="#FBE9E7" p="25px" border="1px solid">
         <form onSubmit={handleStart}>
           <Box>
             <Input
@@ -33,7 +71,7 @@ export const Home = () => {
               name="name"
               border="1px solid gray"
               borderRadius="none"
-              size='lg'
+              size="lg"
               onChange={handleInput}
             />
           </Box>
@@ -59,7 +97,7 @@ export const Home = () => {
               borderRadius="none"
               onChange={handleInput}
             >
-              <option value="">Select Category</option>
+              <option value="">Select Difficulty</option>
               <option value="easy">Easy</option>
               <option value="medium">Medium</option>
               <option value="hard">Hard</option>
@@ -72,14 +110,19 @@ export const Home = () => {
               placeholder="Choose number of Question"
               border="1px solid gray"
               borderRadius="none"
-              size='lg'
+              size="lg"
               type="number"
               onChange={handleInput}
             />
           </Box>
           <Box mt="30px">
             {" "}
-            <Button type="submit" border="1px solid gray" borderRadius="none" p='20px 35px'>
+            <Button
+              type="submit"
+              border="1px solid gray"
+              borderRadius="none"
+              p="20px 35px"
+            >
               START QUIZ
             </Button>
           </Box>
