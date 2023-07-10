@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "user": "Sumat",
+      "score": 30,
+      "id": 1
+    },
+    {
+      "user": "Sumat",
+      "score": 30,
+      "id": 2
+    },
+    {
+      "user": "Sumat",
+      "score": 30,
+      "id": 3
+    }
+  ]
+}
