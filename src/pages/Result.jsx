@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Heading, Text } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchPostUser, getPercentage, makeFirstLetterCap } from "../redux/action";
+import { fetchPostUser, getPercentage, getScore, makeFirstLetterCap } from "../redux/action";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export const Result = () => {
 
  useEffect(()=>{
   const score = quizeStore?.score
-  console.log(score);
+ // console.log(score);
   let total =0;
   for (let key in score){
     total+=score[key]
@@ -48,12 +48,12 @@ export const Result = () => {
       <Box mt="15vh">
         <Box backdropFilter='blur(8px)' display='inline-block' p='8px 25px' border='1px solid'>
           <Text fontWeight="bolder" fontSize="20px">
-            {message} <Text display="inline-block" fontSize="28px">{makeFirstLetterCap(quizeStore?.form.name)}</Text>
+            {message} <Box display="inline-block" fontSize="28px">{makeFirstLetterCap(quizeStore?.form.name)}</Box>
           </Text>
         </Box>
         <Grid
           gridTemplateColumns="repeat(4,1fr)"
-          w="80%"
+          w={{base:'90%',sm:'80%',md:'70%',lg:"50%"}}
           m="auto"
           mt="30px"
           bg="#FBE9E7"
@@ -91,7 +91,7 @@ export const Result = () => {
           </Box>
           <Box border="1px solid">
             <Text fontWeight="600" padding="10px 15px">
-              {correct * 10 || 0}
+              {getScore(quizeStore?.form.difficulty,correct) || 0}
             </Text>
           </Box>
           <Box border="1px solid">

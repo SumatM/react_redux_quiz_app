@@ -25,7 +25,6 @@ export const Home = () => {
     e.preventDefault();
     const {name,category,difficulty,amount} = form;
 
-    console.log(form);
 
     if(!name && !category && !difficulty && !amount){
       ShowToast(toast,"red.500",'Please Fill All Deails')
@@ -63,7 +62,7 @@ export const Home = () => {
       >
         <Heading color="#9575CD">Set up your Quiz</Heading>
       </Box>
-      <Box w="60%" m="auto" mt="40px" bg="#FBE9E7" p="25px" border="1px solid">
+      <Box w={{base:'90%',sm:'80%',md:'70%',lg:"50%"}} m="auto" mt="40px" bg="#FBE9E7" p="25px" border="1px solid">
         <form onSubmit={handleStart}>
           <Box>
             <Input

@@ -42,7 +42,7 @@ export const Dashboard = () => {
         <Heading color="#9575CD">Dashboard</Heading>
       </Box>
       <Box
-        w="50%"
+        w={{base:'90%',sm:'80%',md:'70%',lg:"50%"}}
         margin="auto"
         p="20px"
         border="1px solid"

@@ -6,20 +6,21 @@ export const fetchQuestion = (payload) => (dispatch) => {
   axios(
     `https://opentdb.com/api.php?amount=${amount}&category=${category}&difficulty=${difficulty}&type=multiple`
   ).then((res) => {
-    console.log(res.data.results);
+    //console.log(res.data.results);
     dispatch(actionSaveQuestion(res.data.results));
   });
   dispatch(actionSaveForm(payload));
 };
 
 export const fetchPostUser = (payload) => (dispatch) => {
+   // console.log(payload)
   axios.post("https://mock3-server-vx9d.onrender.com/users", { ...payload }).then((res) => {
-    console.log(res.data);
+   // console.log(res.data);
   });
 };
 
 export function getPercentage(solve, total) {
-  console.log(solve/total*100)
+ // console.log(solve/total*100)
   let per = Math.floor((solve/total*100));
   return per ;
 }
@@ -48,3 +49,14 @@ export function makeFirstLetterCap(str){
 }
 
 
+export function getScore(type,correct){
+
+  if(type=='easy'){
+    return correct*10;
+  }else if(type=='medium'){
+    return correct *15;
+  }else if(type=='hard'){
+    return correct*20
+  }
+
+}

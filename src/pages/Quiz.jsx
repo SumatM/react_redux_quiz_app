@@ -3,19 +3,41 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { QuizCard } from "../component/QuizCard";
 import { Link, useNavigate } from "react-router-dom";
-import { fetchPostUser } from "../redux/action";
+import { fetchPostUser, getScore } from "../redux/action";
 import { actionResetQuestion } from "../redux/actionType";
+
+
+export function randomizer(arr,ele){
+  let position = Math.floor(Math.random()*3)  
+ let newPostion = [...arr];
+
+ let temp = newPostion[position];
+ newPostion[position]= ele;
+    newPostion[3]=temp
+ return newPostion
+
+}
 
 export const Quiz = () => {
   const quizeStore = useSelector((s) => s.quizeReducer);
   const [questionNumber, setQuestionNumber] = useState(0);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [correct,setCorrect] = useState(0)
+  const [allQuestions,setAllQuestion] = useState([])
 
 
 
-  //console.log(quizeStore)
+  useEffect(()=>{
+    let temp = quizeStore?.question?.map((item)=>{
+         
+        return {question:item.question,correct_answer:item.correct_answer,options:randomizer(item.incorrect_answers,item.correct_answer)}
+    })
+    //console.log(temp)
+    setAllQuestion(temp)
+  },[quizeStore.question])
+
+
+
 
   function handlenext() {
     if (questionNumber == quizeStore?.form.amount - 1) {
@@ -34,25 +56,21 @@ export const Quiz = () => {
   }
 
   function handleSubmit() {
-    navigate("/results");
+    const score = quizeStore?.score
+    // console.log(score);
+     let total =0;
+     for (let key in score){
+       total+=score[key]
+    }
     dispatch(
       fetchPostUser({
         user: quizeStore?.form.name,
-        score: correct* 10,
+        score: getScore(quizeStore?.form.difficulty,total)
       })
     );
+    navigate("/results");
   }
    
-  useEffect(()=>{
-    const score = quizeStore?.score
-   // console.log(score);
-    let total =0;
-    for (let key in score){
-      total+=score[key]
-   }
-  // console.log(total)
-   setCorrect(total)
-  },[])
 
 
   function handleBack(){
@@ -70,7 +88,7 @@ export const Quiz = () => {
           <QuizCard
           key={questionNumber}
             value={{
-              item: quizeStore.question[questionNumber],
+              question: allQuestions[questionNumber],
               index: questionNumber,
             }}
           />
